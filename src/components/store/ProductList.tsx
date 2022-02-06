@@ -17,7 +17,7 @@ const ProductList = ({ storeState }: Prop) =>
     const dispatch = useDispatch();
 
     useEffect(() => {
-        // dispatch(getProductsStart(6));
+        dispatch(getProductsStart(6));
     }, []);
 
     return (

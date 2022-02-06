@@ -63,7 +63,7 @@ const reducer = (state = initialState, action: ActionType) =>
                 ...state,
                 isLoading: false,
                 isAuthenticated: true,
-                user: action.payload
+                user: action.payload.data.data
             };
 
         case SIGN_IN_FAILED:

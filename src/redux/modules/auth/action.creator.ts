@@ -1,5 +1,5 @@
 import { LoginErrorResponse, LoginPayload, LoginSuccessResponse } from "../../../types/api-responses/LoginApiResponse";
-import { User } from "../../../types/states/AuthState";
+import { RegisterPayload, RegisterSuccessResponse } from "../../../types/api-responses/RegisterApiResponse";
 import { 
     ActionType,
     SIGN_IN_START,
@@ -41,12 +41,12 @@ export const signOutFailed = (errorMessage: any): ActionType => ({
     payload: errorMessage
 });
 
-export const signUpStart = (payload: User): ActionType => ({
+export const signUpStart = (payload: RegisterPayload): ActionType => ({
     type: SIGN_UP_START,
     payload
 });
 
-export const signUpSucceeded = (payload: User): ActionType => ({
+export const signUpSucceeded = (payload: RegisterSuccessResponse): ActionType => ({
     type: SIGN_UP_SUCCEEDED,
     payload
 });

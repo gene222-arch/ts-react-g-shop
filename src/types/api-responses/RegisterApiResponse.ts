@@ -1,4 +1,5 @@
 import { BaseResponse } from "./BaseResponse";
+import { TypeOverride } from './../TypeOverride';
 
 export type RegisterPayload = {
     name: string,
@@ -7,7 +8,8 @@ export type RegisterPayload = {
     password_confirmation: string
 };
 
-export type RegisterSuccessResponse = BaseResponse & {
+export type RegisterSuccessResponse = TypeOverride<BaseResponse, 
+{
     data: {
         access_token: string,
         expired_at: string,
@@ -19,9 +21,9 @@ export type RegisterSuccessResponse = BaseResponse & {
         }
     },
     message: string
-};
+}>
 
-export type RegisterErrorResponse = BaseResponse & {
+export type RegisterErrorResponse = TypeOverride<BaseResponse, {
     data: null,
     message: {
         name?: string,
@@ -29,4 +31,4 @@ export type RegisterErrorResponse = BaseResponse & {
         password?: string,
         password_confirmation?: string
     }
-};
+}>;

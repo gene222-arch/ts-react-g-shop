@@ -1,5 +1,6 @@
 import Axios, { AxiosInstance } from 'axios'
 import { AxiosHeaderConfig } from '../types/axiosHeaderConfig';
+import * as Cookies from './cookies';
 
 const axiosInstance = (): AxiosInstance => 
 {
@@ -7,8 +8,13 @@ const axiosInstance = (): AxiosInstance =>
         Authorization: ''
     };
 
+    if (Cookies.has('accessToken')) 
+    {
+        headers.Authorization = Cookies.get('accessToken') as string;
+    }
+
     const axiosInstance = Axios.create({
-        baseURL: "https://fakestoreapi.com/products",
+        baseURL: process.env.REACT_APP_LARAVEL_APP_API_URL,
         headers
     });
 

@@ -1,5 +1,5 @@
 import { LoginErrorResponse, LoginPayload, LoginSuccessResponse } from "../../../types/api-responses/LoginApiResponse";
-import { RegisterPayload, RegisterSuccessResponse } from "../../../types/api-responses/RegisterApiResponse";
+import { RegisterPayload } from "../../../types/api-responses/RegisterApiResponse";
 
 export const SIGN_IN_START = 'SIGN_IN_START';
 export const SIGN_IN_SUCCEEDED = 'SIGN_IN_SUCCEEDED';
@@ -20,5 +20,5 @@ export type ActionType =
     | { type: typeof SIGN_OUT_SUCCEEDED }
     | { type: typeof SIGN_OUT_FAILED, payload: any }
     | { type: typeof SIGN_UP_START, payload: RegisterPayload }
-    | { type: typeof SIGN_UP_SUCCEEDED, payload: RegisterSuccessResponse }
+    | { type: typeof SIGN_UP_SUCCEEDED }
     | { type: typeof SIGN_UP_FAILED, payload: any };

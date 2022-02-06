@@ -10,15 +10,16 @@ import {
     signUpFailed, 
     signUpSucceeded
 } from './action.creator';
-import { User } from '../../../types/states/AuthState';
 import { SIGN_IN_PATH, STORE_PATH } from '../../../routes/paths';
-import * as api from './../../../apis/auth/login';
+import * as loginApi from './../../../apis/auth/login';
+import * as registerApi from './../../../apis/auth/register';
 import { LoginErrorResponse, LoginPayload, LoginSuccessResponse } from '../../../types/api-responses/LoginApiResponse';
 import * as Cookies from '../../../utils/cookies';
+import { RegisterPayload, RegisterSuccessResponse } from '../../../types/api-responses/RegisterApiResponse';
 
 function* signInSaga(credentials: LoginPayload) {
     try {
-        const result: LoginSuccessResponse = yield call(api.login, credentials);
+        const result: LoginSuccessResponse = yield call(loginApi.login, credentials);
         const { data } = result
         
         Cookies.set('accessToken', data.access_token, data.expired_at);
@@ -39,10 +40,13 @@ function* signOutSaga() {
     }
 }
 
-function* signUpSaga(user: User) {
+function* signUpSaga(user: RegisterPayload) {
     try {
-        yield put(signUpSucceeded(user));
-        yield put(push(STORE_PATH));
+        const { data }: RegisterSuccessResponse = yield call(registerApi.register, user);
+
+        Cookies.set('accessToken', data.access_token, data.expired_at);
+        yield put(signUpSucceeded());
+        yield put(push(SIGN_IN_PATH));
     } catch (error: unknown) {
         yield put(signUpFailed(getErrorMessage(error)));
     }

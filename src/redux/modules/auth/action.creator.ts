@@ -46,9 +46,8 @@ export const signUpStart = (payload: RegisterPayload): ActionType => ({
     payload
 });
 
-export const signUpSucceeded = (payload: RegisterSuccessResponse): ActionType => ({
-    type: SIGN_UP_SUCCEEDED,
-    payload
+export const signUpSucceeded = (): ActionType => ({
+    type: SIGN_UP_SUCCEEDED
 });
 
 export const signUpFailed = (errorMessage: any): ActionType => ({

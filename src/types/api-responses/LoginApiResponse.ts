@@ -1,9 +1,11 @@
+import { BaseResponse } from "./BaseResponse";
+
 export type LoginPayload = {
     email: string,
     password: string
 };
 
-export type LoginSuccessResponse = {
+export type LoginSuccessResponse = BaseResponse & {
     data: {
         access_token: string,
         expired_at: string,
@@ -14,17 +16,13 @@ export type LoginSuccessResponse = {
             name: string
         }
     },
-    message: string,
-    status: string,
-    status_message: string
+    message: string
 };
 
-export type LoginErrorResponse = {
+export type LoginErrorResponse = BaseResponse & {
     data: null,
     message: {
         email?: string,
         password?: string
-    },
-    status: string,
-    status_message: string
+    } | string
 };

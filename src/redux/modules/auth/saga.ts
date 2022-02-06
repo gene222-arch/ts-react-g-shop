@@ -1,6 +1,6 @@
 import { all, take, put, call } from 'redux-saga/effects';
 import { push } from 'redux-first-history'
-import { Credentials, SIGN_IN_START, SIGN_OUT_START, SIGN_UP_START } from './action.type';
+import { SIGN_IN_START, SIGN_OUT_START, SIGN_UP_START } from './action.type';
 import { getErrorMessage } from './../../../utils/error.handling';
 import { 
     signInFailed, 
@@ -12,13 +12,21 @@ import {
 } from './action.creator';
 import { User } from '../../../types/states/AuthState';
 import { SIGN_IN_PATH, STORE_PATH } from '../../../routes/paths';
+import * as api from './../../../apis/auth/login';
+import { LoginErrorResponse, LoginPayload, LoginSuccessResponse } from '../../../types/api-responses/LoginApiResponse';
+import * as Cookies from '../../../utils/cookies';
 
-function* signInSaga(credentials: Credentials) {
+function* signInSaga(credentials: LoginPayload) {
     try {
-        yield put(signInSucceeded(credentials));
+        const result: LoginSuccessResponse = yield call(api.login, credentials);
+        const { data } = result
+        
+        Cookies.set('accessToken', data.access_token, data.expired_at);
+        yield put(signInSucceeded(result));
         yield put(push(STORE_PATH));
-    } catch (error: unknown) {
-        yield put(signInFailed(getErrorMessage(error)));
+    } catch (error: any) {
+        const errorMessage: LoginErrorResponse = getErrorMessage(error);
+        yield put(signInFailed(errorMessage));
     }
 }
 

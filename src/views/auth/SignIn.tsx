@@ -12,13 +12,20 @@ import Typography from '@mui/material/Typography';
 import Copyright from '../../components/auth/Copyright';
 import Links from '../../components/auth/Links';
 import Wallpaper from '../../components/auth/Wallpaper';
-import { useDispatch } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { signInStart, signUpStart } from './../../redux/modules/auth/action.creator';
 import FacebookLogin from '../../components/soc-med-sign-in/FacebookLogin';
 import { ReactFacebookLoginInfo } from 'react-facebook-login';
 import { User } from '../../types/states/AuthState';
+import { createStructuredSelector } from 'reselect';
+import { authErrorSelector } from '../../redux/modules/auth/selector';
+import { LoginErrorResponse } from '../../types/api-responses/LoginApiResponse';
 
-const SignIn = () => 
+interface Prop {
+    authErrorState: Pick<LoginErrorResponse, "message">
+}
+
+const SignIn = ({ authErrorState }: Prop) => 
 {
     const dispatch = useDispatch();
 
@@ -83,6 +90,8 @@ const SignIn = () =>
                             name="email"
                             autoComplete="email"
                             autoFocus
+                            error={ Boolean(authErrorState.message.email) }
+                            helperText={ authErrorState.message.email }
                         />
                         <TextField
                             margin="normal"
@@ -93,6 +102,8 @@ const SignIn = () =>
                             type="password"
                             id="password"
                             autoComplete="current-password"
+                            error={ Boolean(authErrorState.message.password) }
+                            helperText={ authErrorState.message.password }
                         />
                         <FormControlLabel
                             control={
@@ -118,4 +129,8 @@ const SignIn = () =>
     );
 }
 
-export default SignIn;
+const mapStateToProps = createStructuredSelector({
+    authErrorState: authErrorSelector
+});
+
+export default connect(mapStateToProps)(SignIn);

@@ -45,7 +45,7 @@ const reducer = (state = initialState, action: ActionType) =>
                 isAuthenticated: true,
                 user: {
                     ...state.user,
-                    ...action.payload
+                    ...action.payload.data.data
                 },
                 isLoading: false
             };

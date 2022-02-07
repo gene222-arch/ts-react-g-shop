@@ -3,6 +3,10 @@ import { AlertState } from '../../../types/states/AlertState';
 
 const initialState: AlertState = 
 {
+    anchorOrigin: {
+        vertical: 'bottom',
+        horizontal: 'right'
+    },
     show: false,
     message: '',
     status: 'success'
@@ -15,6 +19,7 @@ const reducer = (state = initialState, action: ActionType) =>
         case SHOW_ALERT:
             return {
                 ...action.payload,
+                anchorOrigin: action.payload?.anchorOrigin,
                 show: true
             };
 
@@ -22,7 +27,7 @@ const reducer = (state = initialState, action: ActionType) =>
             return {
                 ...state,
                 show: false,
-                message: ""
+                message: ''
             };
 
         default:

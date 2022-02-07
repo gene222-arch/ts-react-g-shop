@@ -1,7 +1,7 @@
 import { all, take, put, call } from 'redux-saga/effects';
 import { push } from 'redux-first-history'
 import { SIGN_IN_START, SIGN_OUT_START, SIGN_UP_START } from './action.type';
-import { getErrorMessage } from './../../../utils/error.handling';
+import { getError, getErrorMessage } from './../../../utils/error.handling';
 import { 
     signInFailed, 
     signInSucceeded, 
@@ -16,6 +16,7 @@ import * as registerApi from './../../../apis/auth/register';
 import { LoginErrorResponse, LoginPayload, LoginSuccessResponse } from '../../../types/api-responses/LoginApiResponse';
 import * as Cookies from '../../../utils/cookies';
 import { RegisterErrorResponse, RegisterPayload, RegisterSuccessResponse } from '../../../types/api-responses/RegisterApiResponse';
+import { showAlert } from '../alert/action.creators';
 
 function* signInSaga(credentials: LoginPayload) {
     try {
@@ -27,6 +28,15 @@ function* signInSaga(credentials: LoginPayload) {
         yield put(push(STORE_PATH));
     } catch (error: any) {
         const errorMessage: LoginErrorResponse = getErrorMessage(error);
+
+        if (getError(errorMessage.message)) 
+        {
+            yield put(showAlert({
+                status: "error",
+                message: getError(errorMessage.message)
+            }));
+        }
+
         yield put(signInFailed(errorMessage));
     }
 }

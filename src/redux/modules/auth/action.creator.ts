@@ -1,5 +1,5 @@
 import { LoginErrorResponse, LoginPayload, LoginSuccessResponse } from "../../../types/api-responses/LoginApiResponse";
-import { RegisterPayload, RegisterSuccessResponse } from "../../../types/api-responses/RegisterApiResponse";
+import { RegisterErrorResponse, RegisterPayload, RegisterSuccessResponse } from "../../../types/api-responses/RegisterApiResponse";
 import { 
     ActionType,
     SIGN_IN_START,
@@ -50,7 +50,7 @@ export const signUpSucceeded = (): ActionType => ({
     type: SIGN_UP_SUCCEEDED
 });
 
-export const signUpFailed = (errorMessage: any): ActionType => ({
+export const signUpFailed = (errorMessage: RegisterErrorResponse): ActionType => ({
     type: SIGN_UP_FAILED,
     payload: errorMessage
 });

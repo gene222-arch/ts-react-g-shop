@@ -12,11 +12,17 @@ import Typography from '@mui/material/Typography';
 import Copyright from '../../components/auth/Copyright';
 import Links from '../../components/auth/Links';
 import Wallpaper from '../../components/auth/Wallpaper';
-import { useDispatch } from 'react-redux';
+import { useDispatch, connect } from 'react-redux';
 import { signUpStart } from './../../redux/modules/auth/action.creator';
-import { User } from '../../types/states/AuthState';
+import { RegisterErrorResponse, RegisterPayload } from '../../types/api-responses/RegisterApiResponse';
+import { createStructuredSelector } from 'reselect';
+import { authErrorSelector } from '../../redux/modules/auth/selector';
 
-const SignUp = () => 
+interface Prop {
+    authErrorState: Pick<RegisterErrorResponse, "message">
+}
+
+const SignUp = ({ authErrorState }: Prop) => 
 {
     const dispatch = useDispatch();
 
@@ -28,12 +34,13 @@ const SignUp = () =>
         const name = data.get('name') as string;
         const email = data.get('email') as string;
         const password = data.get('password') as string;
+        const passwordConfirmation = data.get('passwordConfirmation') as string;
 
-        const user: User = {
-            id: parseInt(password),
+        const user: RegisterPayload = {
             name,
             email,
-            password
+            password,
+            password_confirmation: passwordConfirmation
         };
 
         dispatch(signUpStart(user));
@@ -72,6 +79,8 @@ const SignUp = () =>
                             name="name"
                             autoComplete="name"
                             autoFocus
+                            error={ Boolean(authErrorState.message?.name) }
+                            helperText={ authErrorState.message?.name }
                         />
 
                         <TextField
@@ -84,6 +93,8 @@ const SignUp = () =>
                             name="email"
                             autoComplete="email"
                             autoFocus
+                            error={ Boolean(authErrorState.message?.email) }
+                            helperText={ authErrorState.message?.email }
                         />
                         
                         <TextField
@@ -95,6 +106,20 @@ const SignUp = () =>
                             type="password"
                             id="password"
                             autoComplete="current-password"
+                            error={ Boolean(authErrorState.message?.password) }
+                            helperText={ authErrorState.message?.password }
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="passwordConfirmation"
+                            label="Confirm Password"
+                            type="password"
+                            id="passwordConfirmation"
+                            autoComplete="current-password"
+                            error={ Boolean(authErrorState.message?.password_confirmation) }
+                            helperText={ authErrorState.message?.password_confirmation }
                         />
                         <FormControlLabel
                             control={
@@ -118,6 +143,10 @@ const SignUp = () =>
             <Wallpaper />
         </Grid>
     );
-}
+};
 
-export default SignUp;
+const mapStateToProps = createStructuredSelector({
+    authErrorState: authErrorSelector
+});
+
+export default connect(mapStateToProps)(SignUp);

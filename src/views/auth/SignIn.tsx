@@ -16,10 +16,11 @@ import { connect, useDispatch } from 'react-redux';
 import { signInStart, signUpStart } from './../../redux/modules/auth/action.creator';
 import FacebookLogin from '../../components/soc-med-sign-in/FacebookLogin';
 import { ReactFacebookLoginInfo } from 'react-facebook-login';
-import { User } from '../../types/states/AuthState';
 import { createStructuredSelector } from 'reselect';
 import { authErrorSelector } from '../../redux/modules/auth/selector';
 import { LoginErrorResponse } from '../../types/api-responses/LoginApiResponse';
+import { RegisterPayload } from '../../types/api-responses/RegisterApiResponse';
+import { getError, hasError } from '../../utils/error.handling';
 
 interface Prop {
     authErrorState: Pick<LoginErrorResponse, "message">
@@ -44,12 +45,12 @@ const SignIn = ({ authErrorState }: Prop) =>
     {
         if (response) 
         {
-            const user: User = { 
-                id: Date.now(),
+            const user: RegisterPayload = {
                 name: response.name as string,
                 email: response.email as string, 
                 password: response.userID as string,
-                picture: response.picture
+                password_confirmation: response.userID as string
+                // picture: response.picture
             };
 
             dispatch(signUpStart(user));
@@ -90,8 +91,8 @@ const SignIn = ({ authErrorState }: Prop) =>
                             name="email"
                             autoComplete="email"
                             autoFocus
-                            error={ Boolean(authErrorState.message.email) }
-                            helperText={ authErrorState.message.email }
+                            error={ hasError(authErrorState.message, 'email') }
+                            helperText={ getError(authErrorState.message, 'email') }
                         />
                         <TextField
                             margin="normal"
@@ -102,8 +103,8 @@ const SignIn = ({ authErrorState }: Prop) =>
                             type="password"
                             id="password"
                             autoComplete="current-password"
-                            error={ Boolean(authErrorState.message.password) }
-                            helperText={ authErrorState.message.password }
+                            error={ hasError(authErrorState.message, 'password') }
+                            helperText={ getError(authErrorState.message, 'password') }
                         />
                         <FormControlLabel
                             control={

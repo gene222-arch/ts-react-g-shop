@@ -15,7 +15,7 @@ import * as loginApi from './../../../apis/auth/login';
 import * as registerApi from './../../../apis/auth/register';
 import { LoginErrorResponse, LoginPayload, LoginSuccessResponse } from '../../../types/api-responses/LoginApiResponse';
 import * as Cookies from '../../../utils/cookies';
-import { RegisterPayload, RegisterSuccessResponse } from '../../../types/api-responses/RegisterApiResponse';
+import { RegisterErrorResponse, RegisterPayload, RegisterSuccessResponse } from '../../../types/api-responses/RegisterApiResponse';
 
 function* signInSaga(credentials: LoginPayload) {
     try {
@@ -47,8 +47,9 @@ function* signUpSaga(user: RegisterPayload) {
         Cookies.set('accessToken', data.access_token, data.expired_at);
         yield put(signUpSucceeded());
         yield put(push(SIGN_IN_PATH));
-    } catch (error: unknown) {
-        yield put(signUpFailed(getErrorMessage(error)));
+    } catch (error: any) {
+        const errorMessage: RegisterErrorResponse = getErrorMessage(error);
+        yield put(signUpFailed(errorMessage));
     }
 }
 

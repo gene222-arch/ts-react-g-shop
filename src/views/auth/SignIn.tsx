@@ -17,16 +17,18 @@ import { signInStart, signUpStart } from './../../redux/modules/auth/action.crea
 import FacebookLogin from '../../components/soc-med-sign-in/FacebookLogin';
 import { ReactFacebookLoginInfo } from 'react-facebook-login';
 import { createStructuredSelector } from 'reselect';
-import { authErrorSelector } from '../../redux/modules/auth/selector';
+import { authErrorSelector, authSelector } from '../../redux/modules/auth/selector';
 import { LoginErrorResponse } from '../../types/api-responses/LoginApiResponse';
 import { RegisterPayload } from '../../types/api-responses/RegisterApiResponse';
 import { getError, hasError } from '../../utils/error.handling';
+import { AuthState } from '../../types/states/AuthState';
 
 interface Prop {
+    authState: AuthState,
     authErrorState: Pick<LoginErrorResponse, "message">
 }
 
-const SignIn = ({ authErrorState }: Prop) => 
+const SignIn = ({ authState, authErrorState }: Prop) => 
 {
     const dispatch = useDispatch();
 
@@ -117,10 +119,14 @@ const SignIn = ({ authErrorState }: Prop) =>
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
+                            disabled={ authState.isLoading }
                         >
                             Sign In
                         </Button>
-                        <FacebookLogin handleFacebookResponse={ handleFacebookResponse } />
+                        <FacebookLogin 
+                            disabled={ authState.isLoading }
+                            handleFacebookResponse={ handleFacebookResponse } 
+                        />
                         <Links />
                         <Copyright sx={{ mt: 5 }} />
                     </Box>
@@ -131,6 +137,7 @@ const SignIn = ({ authErrorState }: Prop) =>
 }
 
 const mapStateToProps = createStructuredSelector({
+    authState: authSelector,
     authErrorState: authErrorSelector
 });
 

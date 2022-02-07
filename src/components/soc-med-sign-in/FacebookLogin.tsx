@@ -4,10 +4,11 @@ import { Button } from '@mui/material';
 import { ReactFacebookLoginInfo } from 'react-facebook-login';
 
 interface Prop {
+    disabled: boolean,
     handleFacebookResponse: (response: ReactFacebookLoginInfo) => void; 
 };
 
-const FacebookLogin = ({ handleFacebookResponse }: Prop) => 
+const FacebookLogin = ({ disabled = false, handleFacebookResponse }: Prop) => 
 {
     const handleResponseFacebook = (response: ReactFacebookLoginInfo) => {
         handleFacebookResponse(response);
@@ -16,7 +17,6 @@ const FacebookLogin = ({ handleFacebookResponse }: Prop) =>
     return (
         <Facebook
             appId="632988464609771"
-            autoLoad
             fields="name,email,picture"
             callback={ handleResponseFacebook }
             render={renderProps => (
@@ -25,6 +25,7 @@ const FacebookLogin = ({ handleFacebookResponse }: Prop) =>
                     variant="contained" 
                     color="info"
                     fullWidth
+                    disabled={ disabled }
                 >
                    <FacebookIcon />
                 </Button>

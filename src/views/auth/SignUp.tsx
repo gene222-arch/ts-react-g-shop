@@ -16,13 +16,15 @@ import { useDispatch, connect } from 'react-redux';
 import { signUpStart } from './../../redux/modules/auth/action.creator';
 import { RegisterErrorResponse, RegisterPayload } from '../../types/api-responses/RegisterApiResponse';
 import { createStructuredSelector } from 'reselect';
-import { authErrorSelector } from '../../redux/modules/auth/selector';
+import { authErrorSelector, authSelector } from '../../redux/modules/auth/selector';
+import { AuthState } from '../../types/states/AuthState';
 
 interface Prop {
+    authState: AuthState,
     authErrorState: Pick<RegisterErrorResponse, "message">
 }
 
-const SignUp = ({ authErrorState }: Prop) => 
+const SignUp = ({ authState, authErrorState }: Prop) => 
 {
     const dispatch = useDispatch();
 
@@ -132,6 +134,7 @@ const SignUp = ({ authErrorState }: Prop) =>
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
+                            disabled={ authState.isLoading }
                         >
                             Create my account
                         </Button>
@@ -146,6 +149,7 @@ const SignUp = ({ authErrorState }: Prop) =>
 };
 
 const mapStateToProps = createStructuredSelector({
+    authState: authSelector,
     authErrorState: authErrorSelector
 });
 

@@ -16,7 +16,12 @@ import {
     TOGGLE_ADD_ALL_TO_CHECKOUT,
     ToggleAddToCheckoutPayload,
     ToggleAddAllToCheckoutPayload,
+    CLEAR_CART_ERROR,
 } from "./action.type";
+
+export const clearCartError = () => ({
+    type: CLEAR_CART_ERROR
+});
 
 export const clearUserCartStart = (payload: ClearUserCartPayload): ActionType => ({
     type:CLEAR_USER_CART_START,

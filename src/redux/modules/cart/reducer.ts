@@ -11,7 +11,8 @@ import {
     TOGGLE_ADD_TO_CART_SUCCEEDED,
     TOGGLE_ADD_TO_CART_FAILED,
     TOGGLE_ADD_TO_CHECKOUT,
-    TOGGLE_ADD_ALL_TO_CHECKOUT
+    TOGGLE_ADD_ALL_TO_CHECKOUT,
+    CLEAR_CART_ERROR
 } from "./action.type";
 import { clearUserCart, toggleAddAllToCheckout, toggleAddToCart, toggleAddToCheckout } from "./utils";
 
@@ -38,6 +39,12 @@ const reducer = (state = initialState, action: ActionType) =>
             return {
                 ...state,
                 isLoading: true
+            };
+
+        case CLEAR_CART_ERROR:
+            return {
+                ...state,
+                error: undefined
             };
 
         case CLEAR_USER_CART_SUCCEEDED:

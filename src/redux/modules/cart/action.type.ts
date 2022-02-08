@@ -2,6 +2,7 @@ import { User } from "../../../types/states/AuthState";
 import { Cart } from "../../../types/states/CartState";
 import { Product } from "../../../types/states/StoreState";
 
+export const CLEAR_CART_ERROR = 'CLEAR_CART_ERROR';
 export const CLEAR_USER_CART_START = 'CLEAR_USER_CART_START';
 export const CLEAR_USER_CART_SUCCEEDED = 'CLEAR_USER_CART_SUCCEEDED';
 export const CLEAR_USER_CART_FAILED = 'CLEAR_USER_CART_FAILED';
@@ -35,6 +36,7 @@ export type ClearUserCartPayload = {
 
 export type ActionType =   
     | { type: undefined } // Redux action requires <State, Action<any> = An action must be both exists and not in an object
+    | { type: typeof CLEAR_CART_ERROR }
     | { type: typeof CLEAR_USER_CART_START, payload: ClearUserCartPayload }
     | { type: typeof CLEAR_USER_CART_SUCCEEDED, payload: ClearUserCartPayload }
     | { type: typeof CLEAR_USER_CART_FAILED, payload: any }

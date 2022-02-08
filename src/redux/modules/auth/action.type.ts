@@ -10,9 +10,11 @@ export const SIGN_OUT_FAILED = 'SIGN_OUT_FAILED';
 export const SIGN_UP_START = 'SIGN_UP_START';
 export const SIGN_UP_SUCCEEDED = 'SIGN_UP_SUCCEEDED';
 export const SIGN_UP_FAILED = 'SIGN_UP_FAILED';
+export const CLEAR_AUTH_ERROR = 'CLEAR_AUTH_ERROR';
 
 export type ActionType =   
     | { type: undefined } // Redux action requires <State, Action<any> = An action must be both exists and not in an object
+    | { type: typeof CLEAR_AUTH_ERROR }
     | { type: typeof SIGN_IN_START, payload: LoginPayload }
     | { type: typeof SIGN_IN_SUCCEEDED, payload: LoginSuccessResponse }
     | { type: typeof SIGN_IN_FAILED, payload: LoginErrorResponse }

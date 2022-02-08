@@ -57,7 +57,7 @@ const SignIn = ({ authState, authErrorState }: Prop) =>
 
             dispatch(signUpStart(user));
         }
-    }
+    };
     
     return (
         <Grid container component="main" sx={{ height: '100vh' }}>

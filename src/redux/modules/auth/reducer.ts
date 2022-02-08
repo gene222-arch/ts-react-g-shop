@@ -10,6 +10,7 @@ import {
     SIGN_UP_START,
     SIGN_UP_SUCCEEDED,
     SIGN_UP_FAILED,
+    CLEAR_AUTH_ERROR,
 } from "./action.type";
 
 const userInitialValue: User = {
@@ -37,6 +38,12 @@ const reducer = (state = initialState, action: ActionType) =>
             return {
                 ...state,
                 isLoading: true
+            };
+
+        case CLEAR_AUTH_ERROR:
+            return {
+                ...state,
+                error: undefined
             };
 
         case SIGN_IN_SUCCEEDED:

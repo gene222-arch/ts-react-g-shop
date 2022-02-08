@@ -10,8 +10,14 @@ import {
     SIGN_OUT_FAILED,
     SIGN_UP_START,
     SIGN_UP_SUCCEEDED,
-    SIGN_UP_FAILED
+    SIGN_UP_FAILED,
+    CLEAR_AUTH_ERROR
 } from "./action.type";
+
+export const clearAuthError = () => ({
+  type: CLEAR_AUTH_ERROR
+});
+
 
 export const signInStart = (payload: LoginPayload): ActionType => ({
     type: SIGN_IN_START,

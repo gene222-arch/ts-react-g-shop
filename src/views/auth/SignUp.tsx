@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -13,7 +13,7 @@ import Copyright from '../../components/auth/Copyright';
 import Links from '../../components/auth/Links';
 import Wallpaper from '../../components/auth/Wallpaper';
 import { useDispatch, connect } from 'react-redux';
-import { signUpStart } from './../../redux/modules/auth/action.creator';
+import { clearAuthError, signUpStart } from './../../redux/modules/auth/action.creator';
 import { RegisterErrorResponse, RegisterPayload } from '../../types/api-responses/RegisterApiResponse';
 import { createStructuredSelector } from 'reselect';
 import { authErrorSelector, authSelector } from '../../redux/modules/auth/selector';
@@ -48,6 +48,15 @@ const SignUp = ({ authState, authErrorState }: Prop) =>
         dispatch(signUpStart(user));
     };
 
+    useEffect(() => 
+    {
+        dispatch(clearAuthError());
+
+        return () => {
+            dispatch(clearAuthError());
+        }
+    }, []);
+
     return (
         <Grid container component="main" sx={{ height: '100vh' }}>
             <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
@@ -81,8 +90,8 @@ const SignUp = ({ authState, authErrorState }: Prop) =>
                             name="name"
                             autoComplete="name"
                             autoFocus
-                            error={ Boolean(authErrorState.message?.name) }
-                            helperText={ authErrorState.message?.name }
+                            error={ Boolean(authErrorState?.message?.name) }
+                            helperText={ authErrorState?.message?.name }
                         />
 
                         <TextField
@@ -95,8 +104,8 @@ const SignUp = ({ authState, authErrorState }: Prop) =>
                             name="email"
                             autoComplete="email"
                             autoFocus
-                            error={ Boolean(authErrorState.message?.email) }
-                            helperText={ authErrorState.message?.email }
+                            error={ Boolean(authErrorState?.message?.email) }
+                            helperText={ authErrorState?.message?.email }
                         />
                         
                         <TextField
@@ -108,8 +117,8 @@ const SignUp = ({ authState, authErrorState }: Prop) =>
                             type="password"
                             id="password"
                             autoComplete="current-password"
-                            error={ Boolean(authErrorState.message?.password) }
-                            helperText={ authErrorState.message?.password }
+                            error={ Boolean(authErrorState?.message?.password) }
+                            helperText={ authErrorState?.message?.password }
                         />
                         <TextField
                             margin="normal"
@@ -120,8 +129,8 @@ const SignUp = ({ authState, authErrorState }: Prop) =>
                             type="password"
                             id="passwordConfirmation"
                             autoComplete="current-password"
-                            error={ Boolean(authErrorState.message?.password_confirmation) }
-                            helperText={ authErrorState.message?.password_confirmation }
+                            error={ Boolean(authErrorState?.message?.password_confirmation) }
+                            helperText={ authErrorState?.message?.password_confirmation }
                         />
                         <FormControlLabel
                             control={

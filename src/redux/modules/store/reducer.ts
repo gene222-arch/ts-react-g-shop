@@ -4,6 +4,7 @@ import {
     GET_PRODUCTS_START,
     GET_PRODUCTS_SUCCEEDED,
     GET_PRODUCTS_FAILED,
+    CLEAR_PRODUCT_ERROR,
 } from "./action.type";
 
 const initialState: StoreState = 
@@ -29,6 +30,12 @@ const reducer = (state = initialState, action: ActionType) =>
 {
     switch (action.type) 
     {
+        case CLEAR_PRODUCT_ERROR:
+            return {
+                ...state,
+                error: undefined
+            };
+
         case GET_PRODUCTS_START:
             return {
                 ...state,
